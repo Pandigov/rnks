@@ -18,8 +18,8 @@ void setnonblocking(SOCKET sockfd) {
 }
 
 SOCKET sockfd;
-char* server_port = "50000";
-unsigned short portnr = 2000;
+char* server_port = "5000";
+unsigned short portnr = 5000;
 static struct sockaddr_in6 server_addr;
 char* ip = "127.0.0.1";
 
@@ -62,7 +62,7 @@ int initclient(char* server)
 	}
 	printf("Addresse: %s ", server);
 
-	int retaddr = getaddrinfo(NULL, portnr, &hints, &result);
+	int retaddr = getaddrinfo(NULL, "5000", &hints, &result);
 	if (retaddr != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(retaddr));
 		exit(EXIT_FAILURE);
@@ -79,13 +79,14 @@ int initclient(char* server)
 		}
 	}
 
-	freeaddrinfo(result);
+	
 
 	if (pointer == NULL) {
 		fprintf(stderr, "Could not bind\n");
 		exit(EXIT_FAILURE);
 	}
 
+	freeaddrinfo(result);
 	struct packet {
 		unsigned int seqnum;
 		char data[500];

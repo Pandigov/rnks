@@ -9,30 +9,36 @@
 #include <C:\Users\Pandigo\Desktop\BelegRNks\rnks\rnks\struct.h>
 #include <C:\Users\Pandigo\Desktop\BelegRNks\rnks\rnks\checksum.h>
 #pragma warning(disable:4996)
-#define BUFFERSIZE 100
+#define BUFFERSIZE 500
 
 
 int fillreq (struct request* req, FILE* file) {
     static long pos = 0;
     long fsize;
-    
+
+    FILE* fp = fopen("C:\\Users\\Pandigo\\Desktop\\BelegRNks\\rnks\\rnks\\test.txt", "r");
+    if (fp == NULL) {
+        perror("fopen");
+        fclose(fp);
+        return -1;
+    }
 
     ZeroMemory(&req, sizeof(struct request));
 
     // Set file position
-    if (fseek(file, pos, SEEK_SET) != 0) {
+    if (fseek(fp, pos, SEEK_SET) != 0) {
         perror("fseek error");
         return -1;
     }
 
     // Read line from file
-    if (fgets(req->data, BUFFERSIZE, file) == NULL) {
+    if (fgets(req->data, BUFFERSIZE, fp) == NULL) {
         printf("fgets error\n");
         return -1;
     }
 
     // Check if end of file is reached
-    if (pos + strlen(req->data) >= (fsize = ftell(file))) {
+    if (pos + strlen(req->data) >= (fsize = ftell(fp))) {
         req->seqnr = fsize;
         printf("End of File Close sent %ld\n", req->seqnr);
         return -1;
@@ -53,14 +59,10 @@ int main (int argc, char const* argv[]) {
 
     //char Server = argv[1];
    // char File = argv[2];
-     /*while (fgets(data, sizeof(data), fp) != NULL) {
-         printf("%s", data);
-     }
-
-     */
+ 
     initclient(NULL);
 
-    FILE* fp = fopen("test.txt", "r");
+    FILE* fp = fopen("C:\\Users\\Pandigo\\Desktop\\BelegRNks\\rnks\\rnks\\test.txt", "r");
     if (fp == NULL) {
         perror("fopen");
         fclose(fp);

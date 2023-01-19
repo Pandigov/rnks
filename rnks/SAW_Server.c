@@ -45,7 +45,7 @@ int initserver() {
     hints.ai_protocol = IPPROTO_UDP;
     hints.ai_flags = AI_PASSIVE;
 
-    int retaddr = getaddrinfo(NULL, portnr, &hints, &result);
+    int retaddr = getaddrinfo(NULL, "5001", &hints, &result);
     if (retaddr != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(retaddr));
         exit(EXIT_FAILURE);
